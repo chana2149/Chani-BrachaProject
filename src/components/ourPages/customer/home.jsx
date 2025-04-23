@@ -7,14 +7,16 @@ import { GetProductsByCattegoryThunk } from "../../../redux/slices/products/GetP
 import { getProductsThunk } from "../../../redux/slices/products/GetAllProductsThunk";
 import { setcustCameFrom } from "../../../redux/slices/costumers/CostumerSlice";
 // import { Routing } from "../../ourRouting/RoutingInCust";
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 
 export const Home = () => {
     const dispatch = useDispatch();
     //const [showLog, setshowLog] = useState(false);
     const isLoadingproducts = useSelector(state => state.products.loadingGet);
 
-     const currentUser = useSelector(state => state.costumers.currentCust);
-   // const custCameFrom = useSelector(state => state.costumers.custCameFrom);
+    const currentUser = useSelector(state => state.costumers.currentCust);
+    // const custCameFrom = useSelector(state => state.costumers.custCameFrom);
 
     const catt = useSelector(state => state.cattegory.cattagoryList);
     const navigate = useNavigate();
@@ -54,7 +56,10 @@ export const Home = () => {
             <img className="img" src="logo.png" ></img>
             {currentUser && currentUser.name}
             <div className="navigateLogin">
-                <Link className="headerButton" to={'login'} > <img className="imgg" src="pic/userIcon.png" /></Link>
+                <Tooltip title="להתחברות" placement="top-start">
+                    <Link className="headerButton" to={'login'} > <img className="imgg" src="pic/userIcon.png" /></Link>
+                </Tooltip>
+
                 {currentUser && <Link className="headerButton" to={'showCart'} > <img className="imgg" src="pic/cartIcon.png" /></Link>}
                 {currentUser && <Link className="headerButton" to={'showOrders'} >   <img className="imgg" src="pic/userIcon.png" /></Link>}
                 {currentUser && <Link className="headerButton" to={'showLove'} >  <img className="imgg" src="pic/heart.png" /> </Link>}
