@@ -1,0 +1,220 @@
+* {
+    direction: rtl;
+}
+
+header {
+    height: 10vh;
+    display: flex;
+  /* //  flex-wrap: wrap; */
+    justify-content: space-between;
+
+}
+
+body {
+    height: 80vh;
+    width: 100%;
+    overflow: auto;
+
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: black;
+
+}
+.headerButton,.headerButtonEmpty{
+    text-decoration: none;
+    height: 5vh;
+    width: 100%;
+    text-align: center;
+    border: none;
+}
+.headerButton:hover{
+    
+    border: solid 2px rgb(247, 174, 39);
+    border-radius: 50% 50% 0 0;
+    border-top: none;
+    border-right: none;
+}
+.navigateButton {
+    text-decoration: none;
+    height: 5vh;
+    width: 100%;
+    background-color: black;
+    text-align: center;
+    padding-top: 2vh;
+    border: none;
+    color: white;
+}
+
+.navigateButton:hover {
+    background-color: rgb(116, 112, 112);
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.navigateLogin {
+    padding-top: 2%;
+    width: 15%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.navigateItems {
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+
+}
+
+
+.imgg {
+    padding-top: 15%;
+    padding-right: 15%;
+    height: 70%;
+    width: 70%;
+ 
+
+}
+.img{
+    height: 100%;
+    width: 20%;
+
+}
+
+.dialog {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    justify-content: start;
+    height: 50vh;
+    width: 50%;
+    text-align: center;
+    animation-name: animation;
+    animation-duration: 1.5s;
+    background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+}
+.dialoglogon{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    justify-content: start;
+    height: 50vh;
+    width: 50%;
+    text-align: center;
+    background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.wrapButtons {
+    width: 100%;
+
+}
+.snif{
+    display: flex;
+}
+.link {
+
+    text-align: center;
+    height: 3vh;
+    width: 5%;
+    padding: 0;
+    color: black;
+    text-decoration: none;
+
+}
+
+
+.buttonx {
+    text-decoration: none;
+    height: 3vh;
+    width: 5%;
+    padding: 0;
+    color: black;
+    font-size: 170%;
+}
+
+.buttonForm {
+    width: 90%;
+    padding: 14px;
+    margin: 10px 0;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+@keyframes animation {
+    0% {
+        width: 2%;
+        height: 15%;
+    }
+}
+
+
+
+
+
+.products-container {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.product-card {
+    width: 200px;
+    height: 200px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.product-card:hover, .product-main-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.product-text {
+    font-size: 14px;
+    color: #333;
+}
+
+.single-product {
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.product-mains {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.product-main-card {
+    width: 200px;
+    padding: 15px;
+    background-color: #fff5f5;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    cursor: pointer;
+
+}
