@@ -60,9 +60,22 @@ export const Home = () => {
                     <Link className="headerButton" to={'login'} > <img className="imgg" src="pic/userIcon.png" /></Link>
                 </Tooltip>
 
-                {currentUser && <Link className="headerButton" to={'showCart'} > <img className="imgg" src="pic/cartIcon.png" /></Link>}
-                {currentUser && <Link className="headerButton" to={'showOrders'} >   <img className="imgg" src="pic/userIcon.png" /></Link>}
-                {currentUser && <Link className="headerButton" to={'showLove'} >  <img className="imgg" src="pic/heart.png" /> </Link>}
+                {currentUser &&
+                    <Tooltip title="לצפיה בסל" placement="top-start">
+                        <Link className="headerButton" to={'showCart'} >
+                            <img className="imgg" src="pic/cartIcon.png" />
+                        </Link>
+                    </Tooltip>
+                }
+                {currentUser &&
+                    <Tooltip title="ההזמנות שלי" placement="top-start">
+                        <Link className="headerButton" to={'showOrders'} >   <img className="imgg" src="pic/userIcon.png" /></Link>
+                        </Tooltip>}
+                {currentUser && 
+                                 <Tooltip title="מועדפים" placement="top-start">
+
+                <Link className="headerButton" to={'showLove'} >  <img className="imgg" src="pic/heart.png" /> </Link></Tooltip>}
+
 
                 {!currentUser && <p className="headerButtonEmpty"  > </p>}
                 {!currentUser && <p className="headerButtonEmpty" > </p>}
