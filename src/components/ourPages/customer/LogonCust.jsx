@@ -46,7 +46,6 @@ export const LogonCust = () => {
         <Link className="buttonx" to={'/'}> X</Link>
         {/* <label>שם</label> */}
         <div className="wrapButtons">
-            <form>
                 <input className="buttonForm" placeholder="שם" value={user.name}  onChange={e => setUser({ ...user, name: e.target.value })} required autoFocus={true}></input>
                 <input className="buttonForm" placeholder="סיסמא" value={user.id}  onChange={e => setUser({ ...user, id: e.target.value })} required type="number"></input>
                 <input className="buttonForm" placeholder="כתובת" value={user.address} required onChange={e => setUser({ ...user, address: e.target.value })} ></input>
@@ -54,7 +53,6 @@ export const LogonCust = () => {
                 {/* <input type="submit" className="buttonForm submit" onSubmit={() => check()} value={"התחברות"} /> */}
                 <button className="buttonForm submit" onClick={() => check()} disabled={user.telephone === "" || user.address === "" || user.name === "" || user.id === 0}>התחברות</button>
 
-            </form>
         </div>
     </dialog>
 }

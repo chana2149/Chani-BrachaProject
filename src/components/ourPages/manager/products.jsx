@@ -22,7 +22,7 @@ export const Products1 = () => {
     const [snif, setSnif] = useState({});
     const products = useSelector(state => state.products.productsList);
     const [index1, setIndex1] = useState(-1);
-    const [prod, setProd] = useState({ id: 0, name: "", url: "", details: "", idCattegory: null, idCattegoryNavigation: {}, productsMains: [] });
+    const [prod, setProd] = useState({ id: 0, name: "", url: "", details: "", idCattegory: 9000, idCattegoryNavigation: {}, productsMains: [] });
     const [prodMain, setProdMain] = useState({ idProduct: 0, dayTaken: "2025-03-26T07:39:53.337Z", idSnif: 0, id: 0, available: true, price: 0, canBeUsed: true });
     const sniffim = useSelector(state => state.sniffim.sniffimList);
 
@@ -33,9 +33,15 @@ export const Products1 = () => {
         console.log(e, p)
     }
     const saveNewMain = () => {
-       // setTimeout(() => {
-            dispatch(AddProductsMainThunk(prodMain));
-       // }, 1000);
+        // setTimeout(() => {
+        dispatch(AddProductsMainThunk(prodMain));
+        // }, 1000);
+
+    }
+    const findId = (e) => {
+        debugger
+        var cat = catt.find(x => x.name === e);
+        setProd({ ...prod, idCattegory: cat.id });
 
     }
     const save = () => {
@@ -71,13 +77,13 @@ export const Products1 = () => {
     //const isLoadingProducts = useSelector(state => state.products.loading);
 
     const addItem = (p) => {
-        setShowAdd(true); 
-        setProd(p); 
+        setShowAdd(true);
+        setProd(p);
         dispatch(GetSniffimThunk());
     }
     const deleteItem = (p) => {
-        setProd(p); 
-        dispatch(GetSniffimThunk()); 
+        setProd(p);
+        dispatch(GetSniffimThunk());
         setShowDelete(true);
     }
 
@@ -101,14 +107,11 @@ export const Products1 = () => {
         {showEdit && <dialog className="dialog" ref={refDialog}>
             <div className="buttonx" onClick={() => { setShowEdit(false); }}>X</div>
             <div className="wrapButtons">
-                <input className="buttonForm" value={prod.name} onChange={e => { setProd({ ...prod, name: e.target.value }); }} placeholder="name" autoFocus />
-                <input className="buttonForm" value={prod.url} onChange={e => { setProd({ ...prod, url: e.target.value }); }} placeholder="url" autoFocus />
-                <input className="buttonForm" value={prod.details} onChange={e => { setProd({ ...prod, details: e.target.value }); }} placeholder="details" autoFocus />
-                <select className="buttonForm" placeholder="idCattegory" onChange={(e) => { setProd({ ...prod, idCattegory: e.target.value }); }}>
-
+                <input className="buttonForm" value={prod.name} onChange={e => { setProd({ ...prod, name: e.target.value }); }} placeholder="name" />
+                <input className="buttonForm" value={prod.url} onChange={e => { setProd({ ...prod, url: e.target.value }); }} placeholder="url" />
+                <input className="buttonForm" value={prod.details} onChange={e => { setProd({ ...prod, details: e.target.value }); }} placeholder="details" />
+                <select className="buttonForm" placeholder="idCattegory" onChange={e => { findId(e.target.value) }}>
                     {catt.map(c => <option  >{c.name}</option>)}
-
-
                 </select>
                 {/* <input className="buttonForm" value={prod.idCattegory} onChange={e => { setProd({ ...prod, idCattegory: e.target.value }); }} placeholder="idCattegory" /> */}
                 <button className="buttonForm submit" onClick={() => { setShowEdit(false); save(); }}  >אישור</button></div>

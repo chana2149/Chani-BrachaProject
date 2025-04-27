@@ -52,7 +52,7 @@ export const Products = () => {
         {products.map(p =>
             <div className="product-card" onClick={() => { setProd(p) }} key={p.id}>
                 <div className="product-details">
-                    <img className="img" src={`${p.url}`} ></img>
+                    <img className="img" src={`/pic/Products/${p.url}.png`} alt={`${p.url}`}></img>
                     <div className="product-text">{p.idCattegoryNavigation.name}</div>
                     <div className="product-text">{p.name}</div>
                     <div className="product-text">{p.url} kkkkkkkkk</div>

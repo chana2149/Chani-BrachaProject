@@ -14,6 +14,8 @@ import { DeleteProdMainThunk } from "./DeleteProdMainThunk";
 
 const INITIAL_STATE = {
     productsList: [],
+    productsListForSearch: [],
+
     product: {},
     token: 0,
     loading: false,
@@ -32,7 +34,16 @@ export const productSlice = createSlice({
             state.error = 0;
 
         }
-
+        ,
+        FocusOnsearch: (state, action) => {
+            state.productsListForSearch = state.productsList;
+        },
+        search: (state, action) => {
+            state.productsList = state.productsListForSearch;
+            alert("ttt".includes("tt"))
+            // state.productsList = state.productsList.filter(x => { JSON.stringify(x.name).includes(JSON.stringify(action.payload)) || JSON.stringify(x.details).includes(JSON.stringify(action.pa)) })
+            alert(JSON.stringify(state.productsList.filter(x => { JSON.stringify(x.name).includes(JSON.stringify(action.payload)) || JSON.stringify(x.details).includes(JSON.stringify(action.pa)) })))
+        }
 
     },
 
@@ -43,6 +54,7 @@ export const productSlice = createSlice({
         });
         builder.addCase(getProductsThunk.fulfilled, (state, action) => {
             state.productsList = action.payload;
+            state.productsListForSearch = action.payload;
             state.loading = false;
         });
         builder.addCase(getProductsThunk.rejected, (state, action) => {
@@ -70,6 +82,8 @@ export const productSlice = createSlice({
         });
         builder.addCase(GetProductsByCattegoryThunk.fulfilled, (state, action) => {
             state.productsList = action.payload;
+            state.productsListForSearch = action.payload;
+
             state.loadingGet = false;
         });
         builder.addCase(GetProductsByCattegoryThunk.rejected, (state, action) => {
@@ -153,4 +167,4 @@ export const productSlice = createSlice({
 
     }
 })
-// export const { logoutevents} = productSlice.actions;
+export const { search } = productSlice.actions;

@@ -99,7 +99,6 @@ export const LoginCust = () => {
         <Link className="buttonx" to={'/'}> X</Link>
         {/* <label>שם</label> */}
         <div className="wrapButtons">
-            <form>
                 <input className="buttonForm" placeholder="שם" value={user.name} onChange={e => setUser({ ...user, name: e.target.value })} autoFocus={true}></input>
                 {/* <label>סיסמא</label> */}
                 <input className="buttonForm" placeholder="סיסמא" value={user.id} onChange={e => setUser({ ...user, id: e.target.value })} type="number"></input>
@@ -108,7 +107,6 @@ export const LoginCust = () => {
                 {/* <input type="submit" className="buttonForm submit" onSubmit={() => check()} value={"התחברות"}/> */}
 
                 <button className="buttonForm submit" onClick={() => check()} disabled={user.name === "" || user.id === 0}>התחברות</button>
-            </form>
         </div>
     </dialog>
 }

@@ -21,7 +21,8 @@ export const ManagerHome = () => {
 
 
         {/* <div className="header"></div> */}
-        <header>  <img className="img" src="logo.png" ></img>
+        <header>  
+        <img className="img" src="/logo.png" alt="logo"></img>
         </header>
         <nav>
             <div className="navigateItems">
