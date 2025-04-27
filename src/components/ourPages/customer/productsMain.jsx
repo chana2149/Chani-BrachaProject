@@ -22,8 +22,8 @@ export const ProductsMain = () => {
             dispatch(GetCostumerByIdThunk(currentCust.id))
             // dispatch(getProductsThunk())
         }
-  
-       
+
+
     }, []);
     useEffect(() => {
         if (currentCust != {}) {
@@ -43,8 +43,9 @@ export const ProductsMain = () => {
         })
     }
     const addToCart = (prod) => {
-        if(prod.available.toString()==='true'){
-            dispatch(addCurrentCustCart(prod));} 
+        if (prod.available.toString() === 'true') {
+            dispatch(addCurrentCustCart(prod));
+        }
     }
     const checkFavorate = (prod) => {
         if (haert === '🤍') {
@@ -57,14 +58,20 @@ export const ProductsMain = () => {
         }
     }
     return <>{<div>
+        <div> <input  placeholder={'חיפוש מוצר'} />
+            <input  placeholder={'חיפוש מוצר'} />
+        </div>
         <div className="products-container">
+            {/* <div>{product.productsMains.IdProductNavigation.name}</div> */}
             {product.productsMains?.map(p =>
                 <div className="product-main-card" key={p.id} onClick={() => { setProd(p) }}>
-                    {p.available.toString()==='false' && <div className="product-text"> המוצר חוזר ב{new Date(p.dayTaken).toLocaleDateString()}</div>}
+                    {p.available.toString() === 'false' && <div className="product-text"> המוצר חוזר ב{new Date(p.dayTaken).toLocaleDateString()}</div>}
                     <div className="product-text">{p.price}</div>
                     <div className="product-text">{p.id} {p.idProduct}</div>
+                    <div className="product-text">{p.idProductNavigation.name}</div>
+                    <div className="product-text">{p.idSnifNavigation.address}</div>
+                    <div className="product-text">{p.idSnifNavigation.telephone}</div>
 
-                    <div className="product-text">{p.idSnif}</div>
                     {/* {favorate.map(f => {
                         if (f.id === p.id) {
                             <div  className="product-text">💖</div>
@@ -81,7 +88,7 @@ export const ProductsMain = () => {
             <div key={prod.id} >
                 <div className="product-text">{prod.available.toString()}</div>
                 <div className="product-text">{prod.price}</div>
-                <div className="product-text">{prod.id} {prod.idProduct}</div>
+                {/* <div className="product-text">{prod.id} {prod.idProduct}</div> */}
                 <div className="product-text">{prod.dayTaken}</div>
                 <div className="product-text">{prod.idSnif}</div>
 

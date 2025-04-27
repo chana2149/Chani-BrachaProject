@@ -23,14 +23,12 @@ export const Login = () => {
     <Link className="buttonx" to={'/manager123/HomeManager'}> X</Link>
     {/* <label>שם</label> */}
     <div className="wrapButtons">
-        <form>
       
             <input className="buttonForm" placeholder="שם" value={user.name} onChange={e => setUser({ ...user, name: e.target.value })} autoFocus="true"></input>
             {/* <label>סיסמא</label> */}
             <input className="buttonForm" placeholder="סיסמא" value={user.password} onChange={e => setUser({ ...user, password: e.target.value })} type="password"></input>
             
             <button className="buttonForm submit" onClick={() => check()} disabled={user.name === "" || user.password === "" }>התחברות</button>
-        </form>
         </div>
 
 </dialog>

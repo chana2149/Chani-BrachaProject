@@ -5,7 +5,7 @@
 header {
     height: 10vh;
     display: flex;
-  /* //  flex-wrap: wrap; */
+    /* //  flex-wrap: wrap; */
     justify-content: space-between;
 
 }
@@ -23,20 +23,23 @@ nav {
     background-color: black;
 
 }
-.headerButton,.headerButtonEmpty{
+
+.headerButton, .headerButtonEmpty {
     text-decoration: none;
     height: 5vh;
     width: 100%;
     text-align: center;
     border: none;
 }
-.headerButton:hover{
-    
+
+.headerButton:hover {
+
     border: solid 2px rgb(247, 174, 39);
     border-radius: 50% 50% 0 0;
     border-top: none;
     border-right: none;
 }
+
 .navigateButton {
     text-decoration: none;
     height: 5vh;
@@ -46,6 +49,14 @@ nav {
     padding-top: 2vh;
     border: none;
     color: white;
+}
+
+.navigateButtonSearch {
+    text-decoration: none;
+    height: 3vh;
+    margin-right: 3%;
+    width: 100%;
+    margin-top: 2vh;
 }
 
 .navigateButton:hover {
@@ -63,7 +74,7 @@ nav {
 }
 
 .navigateItems {
-    width: 60%;
+    width: 75%;
     display: flex;
     justify-content: space-around;
 
@@ -75,10 +86,11 @@ nav {
     padding-right: 15%;
     height: 70%;
     width: 70%;
- 
+
 
 }
-.img{
+
+.img {
     height: 100%;
     width: 20%;
 
@@ -99,7 +111,8 @@ nav {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 
 }
-.dialoglogon{
+
+.dialoglogon {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -116,9 +129,11 @@ nav {
     width: 100%;
 
 }
-.snif{
+
+.snif {
     display: flex;
 }
+
 .link {
 
     text-align: center;

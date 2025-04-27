@@ -24,12 +24,12 @@ export const LoginCust = () => {
 
     useEffect(() => {
         refDialog.current.showModal();
-        if (catt.length > 0) dispatch(GetCostumersThunk())
+        if (catt.length > 0) dispatch(GetCostumersThunk());
     }, []);
 
     const check = () => {
         var exists = 0;
-        
+
         // eslint-disable-next-line no-unused-vars
         var flag = false;
         dispatch(setCurrentCust(user));
@@ -37,13 +37,13 @@ export const LoginCust = () => {
             // if (c.id === user.id && c.name != user.name) {
             //     exists = 4;
             // }
-            if (c.id === user.id && c.name === user.name) {
+            if (c.id === user.id) {
                 exists = 5;
                 flag = true;
                 // navigate("/home");
             }
         })
-        if(flag)
+        if (flag)
             navigate(`/home`);
         if (exists === 0) {
             alert()
@@ -51,32 +51,31 @@ export const LoginCust = () => {
         if (custCameFrom !== "") {
             //alert(custCameFrom.substring(28))
             dispatch(GetProductsByIdThunk(custCameFrom.substring(28)));
+            navigate(custCameFrom);
+        }
 
-                    navigate(custCameFrom);
-                }
 
-
-            //dispatch(AddCustomersThunk(user))
-
+        //dispatch(AddCustomersThunk(user))
 
 
 
-            //dispatch(GetCostumerByIdThunk(user.id))
-            // while (isLoadingCust);
-            // navigate("/home")
-            //  }
 
-            // setnewUse(true);
-      //  }
+        //dispatch(GetCostumerByIdThunk(user.id))
+        // while (isLoadingCust);
+        // navigate("/home")
+        //  }
+
+        // setnewUse(true);
+        //  }
         // else {
         //     if (custCameFrom != "") {
         //         navigate(custCameFrom);
         //     }
-            // else{
-           
-              
-            // }
-       // }
+        // else{
+
+
+        // }
+        // }
         // if(exists===4){
         //     alert()
         // }
@@ -99,14 +98,13 @@ export const LoginCust = () => {
         <Link className="buttonx" to={'/'}> X</Link>
         {/* <label>שם</label> */}
         <div className="wrapButtons">
-                <input className="buttonForm" placeholder="שם" value={user.name} onChange={e => setUser({ ...user, name: e.target.value })} autoFocus={true}></input>
-                {/* <label>סיסמא</label> */}
-                <input className="buttonForm" placeholder="סיסמא" value={user.id} onChange={e => setUser({ ...user, id: e.target.value })} type="number"></input>
-                {/* <label>כתובת</label> */}
-                <button onClick={() =>{dispatch(setCurrentCust(user));navigate("/home/logon")}}>new user</button>
-                {/* <input type="submit" className="buttonForm submit" onSubmit={() => check()} value={"התחברות"}/> */}
-
-                <button className="buttonForm submit" onClick={() => check()} disabled={user.name === "" || user.id === 0}>התחברות</button>
+            <input className="buttonForm" placeholder="שם" value={user.name} onChange={e => setUser({ ...user, name: e.target.value })} ></input>
+            {/* <label>סיסמא</label> */}
+            <input className="buttonForm" placeholder="סיסמא" value={user.id} onChange={e => setUser({ ...user, id: e.target.value })} type="number"></input>
+            {/* <label>כתובת</label> */}
+            <button onClick={() => { dispatch(setCurrentCust(user)); navigate("/home/logon") }}>new user</button>
+            {/* <input type="submit" className="buttonForm submit" onSubmit={() => check()} value={"התחברות"}/> */}
+            <button className="buttonForm submit" onClick={() => check()} disabled={user.name === "" || user.id === 0}>התחברות</button>
         </div>
     </dialog>
 }

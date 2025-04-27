@@ -90,6 +90,9 @@ export const Cart = () => {
                 snifOrder.push(snif)
                 const arr = cart.filter(c => c.idSnif == snif).map(cc => { return { idOrder: 0, idProductSpecific: cc.id, nothing: '' } });
                 order.push({ idOrder: 0, idSnif: snif, idCostumer: customer.id, orderDetails: arr })
+
+
+                // 
                 // while(orderLoading);
             }
         }

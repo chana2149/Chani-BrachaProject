@@ -23,7 +23,14 @@ export const Products1 = () => {
     const products = useSelector(state => state.products.productsList);
     const [index1, setIndex1] = useState(-1);
     const [prod, setProd] = useState({ id: 0, name: "", url: "", details: "", idCattegory: 9000, idCattegoryNavigation: {}, productsMains: [] });
-    const [prodMain, setProdMain] = useState({ idProduct: 0, dayTaken: "2025-03-26T07:39:53.337Z", idSnif: 0, id: 0, available: true, price: 0, canBeUsed: true });
+    const [prodMain, setProdMain] = useState({
+        idProduct: 0, dayTaken: null, idSnif: 0, id: 0, available: true, price: 0, canBeUsed: true, IdProductNavigation: { name: "" }, IdSnifNavigation: {
+            id: 0,
+            name: "",
+            address: "",
+            telephone: "",
+        }
+    });
     const sniffim = useSelector(state => state.sniffim.sniffimList);
 
     const refDialog = useRef();
@@ -62,7 +69,7 @@ export const Products1 = () => {
     // useEffect(() => {
     //     // setTimeout(() => {
     //         debugger
-    //        if (showDelete)
+    //        if (!showDelete)
     //             dispatch(getProductsThunk());
 
     //     // }, 1000);
@@ -110,9 +117,14 @@ export const Products1 = () => {
                 <input className="buttonForm" value={prod.name} onChange={e => { setProd({ ...prod, name: e.target.value }); }} placeholder="name" />
                 <input className="buttonForm" value={prod.url} onChange={e => { setProd({ ...prod, url: e.target.value }); }} placeholder="url" />
                 <input className="buttonForm" value={prod.details} onChange={e => { setProd({ ...prod, details: e.target.value }); }} placeholder="details" />
-                <select className="buttonForm" placeholder="idCattegory" onChange={e => { findId(e.target.value) }}>
+                {prod.id!==0 && <select className="buttonForm" value={prod.idCattegoryNavigation.name} placeholder="idCattegory" onChange={e => { findId(e.target.value) }}>
+                    {catt.map(c => <option  >{c.name}</option>)}
+                </select>}
+                {prod.id===0 && <select className="buttonForm"  placeholder="idCattegory" onChange={e => { findId(e.target.value) }}>
                     {catt.map(c => <option  >{c.name}</option>)}
                 </select>
+
+                }
                 {/* <input className="buttonForm" value={prod.idCattegory} onChange={e => { setProd({ ...prod, idCattegory: e.target.value }); }} placeholder="idCattegory" /> */}
                 <button className="buttonForm submit" onClick={() => { setShowEdit(false); save(); }}  >אישור</button></div>
         </dialog>

@@ -55,7 +55,6 @@ export const Products = () => {
                     <img className="img" src={`/pic/Products/${p.url}.png`} alt={`${p.url}`}></img>
                     <div className="product-text">{p.idCattegoryNavigation.name}</div>
                     <div className="product-text">{p.name}</div>
-                    <div className="product-text">{p.url} kkkkkkkkk</div>
                     <div className="product-text">{p.details}</div>
                     <div className="product-text">{p.id}</div> </div>
                     

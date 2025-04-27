@@ -19,14 +19,14 @@ export const Home = () => {
     const currentUser = useSelector(state => state.costumers.currentCust);
     // const custCameFrom = useSelector(state => state.costumers.custCameFrom);
     const products = useSelector(state => state.products.productsList);
-   
+
 
     const catt = useSelector(state => state.cattegory.cattagoryList);
     const navigate = useNavigate();
 
     useEffect(() => {
 
-        dispatch(GetCattegoryThunk())
+       dispatch(GetCattegoryThunk())
         //  if (custCameFrom != '') {
         //     var url = custCameFrom;
         //     dispatch(setcustCameFrom(""));
@@ -48,7 +48,7 @@ export const Home = () => {
         dispatch(GetProductsByCattegoryThunk(p.id));
     }
     const focusOnSearch = () => {
-        if (products.length ===0)
+        if (products.length === 0)
             dispatch(getProductsThunk());
         navigate('products')
     }
@@ -65,26 +65,27 @@ export const Home = () => {
         <header >
             {/* <img className="img" src="colorful.png" ></img> */}
             <img className="img" src="/logo.png" alt="logo"></img>
-            {currentUser && currentUser.name}
+            {/* {currentUser && currentUser.name} */}
             <div className="navigateLogin">
-                <Tooltip title="להתחברות" placement="top-start">
+                {!currentUser && <Tooltip title="להתחברות" placement="bottom-start">
                     <Link className="headerButton" to={'login'} > <img className="imgg" src="/pic/userIcon.png" alt="userIcon" /></Link>
-                </Tooltip>
-
+                </Tooltip>}
+                {currentUser && <Tooltip title={`${currentUser.name}`} placement="bottom-start">
+                    <Link className="headerButton" to={'login'} > <img className="imgg" src="/pic/userIcon.png" alt="userIcon" /></Link>
+                </Tooltip>}
                 {currentUser &&
-                    <Tooltip title="לצפיה בסל" placement="top-start">
+                    <Tooltip title="לצפיה בסל" placement="bottom-start">
                         <Link className="headerButton" to={'showCart'} >
                             <img className="imgg" src="/pic/cartIcon.png" alt="cartIcon" />
                         </Link>
                     </Tooltip>
                 }
                 {currentUser &&
-                    <Tooltip title="ההזמנות שלי" placement="top-start">
+                    <Tooltip title="ההזמנות שלי" placement="bottom-start">
                         <Link className="headerButton" to={'showOrders'} >   <img className="imgg" src="/pic/userIcon.png" alt="userIcon" /></Link>
                     </Tooltip>}
                 {currentUser &&
-                    <Tooltip title="מועדפים" placement="top-start">
-
+                    <Tooltip title="מועדפים" placement="bottom-start">
                         <Link className="headerButton" to={'showLove'} >  <img className="imgg" src="/pic/heart.png" alt="heart" /> </Link></Tooltip>}
 
 
@@ -100,9 +101,10 @@ export const Home = () => {
 
                     {/* catt.map(p => <span className="navigateButton"  key={p.Id}> */}
                     <span  >{p.name}</span></span>)}
-                <span className="navigateButton" onClick={() => { dispatch(getProductsThunk()); navigate('products') }}>הצג הכל</span></div>
+                <span className="navigateButton" onClick={() => { dispatch(getProductsThunk()); navigate('products') }}>הצג הכל</span>
+                <input className="navigateButtonSearch" placeholder={'חיפוש מוצר'} onFocus={() => { focusOnSearch() }}  onChange={e => search1(e.target.value)} />
+            </div>
 
-            <input placeholder={'חיפוש מוצר'} onFocus={() => { focusOnSearch() }} onChange={e => search1(e.target.value)} />
         </nav>
         <body>
             <Outlet></Outlet>
