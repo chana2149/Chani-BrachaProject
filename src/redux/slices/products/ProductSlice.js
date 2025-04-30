@@ -43,6 +43,13 @@ export const productSlice = createSlice({
             alert("ttt".includes("tt"))
             // state.productsList = state.productsList.filter(x => { JSON.stringify(x.name).includes(JSON.stringify(action.payload)) || JSON.stringify(x.details).includes(JSON.stringify(action.pa)) })
             alert(JSON.stringify(state.productsList.filter(x => { JSON.stringify(x.name).includes(JSON.stringify(action.payload)) || JSON.stringify(x.details).includes(JSON.stringify(action.pa)) })))
+        },
+        sortByBig:(state,action)=>{
+            state.product.productsMains=state.product.productsMains.sort((a,b)=>a.price>b.price? -1 : 1);
+        },
+        sortBySmall:(state,action)=>{
+            state.product.productsMains=state.product.productsMains.sort((a,b)=>a.price>b.price? 1 : -1);
+
         }
 
     },
@@ -97,8 +104,11 @@ export const productSlice = createSlice({
             state.loading = true;
         });
         builder.addCase(GetProductsByIdThunk.fulfilled, (state, action) => {
+
             state.product = action.payload;
             state.loading = false;
+            state.product.productsMains=state.product.productsMains.sort((a,b)=>a.price>b.price? -1 : 1);
+
         });
         builder.addCase(GetProductsByIdThunk.rejected, (state, action) => {
             console.log("action: ", action);
@@ -167,4 +177,4 @@ export const productSlice = createSlice({
 
     }
 })
-export const { search } = productSlice.actions;
+export const { search,sortByBig,sortBySmall } = productSlice.actions;

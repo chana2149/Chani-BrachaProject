@@ -13,6 +13,7 @@ import { Favorate } from "../ourPages/customer/favorate";
 import { Cart } from "../ourPages/customer/cart";
 import { Orders } from "../ourPages/customer/orders";
 import { LogonCust } from "../ourPages/customer/LogonCust";
+import { OrderDetails } from "../ourPages/customer/OrderDetails";
 
 export const Routing = () => {
 
@@ -22,7 +23,9 @@ export const Routing = () => {
             <Route path={'/home'} element={<Home />} >
                 <Route path={'products'} element={<Products />} />
                 <Route path={'showCart'} element={<Cart />} />
-                <Route path={'showOrders'} element={<Orders />} />
+                <Route path={'showOrders'} element={<Orders />} >
+                    <Route path={':orderId'} element={<OrderDetails />} />
+                </Route>
                 <Route path={'showLove'} element={<Favorate />} />
                 <Route path={'products/productsMain/:id'} element={<ProductsMain />} />
                 <Route path={'login'} element={<LoginCust />} />

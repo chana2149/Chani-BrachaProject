@@ -9,72 +9,212 @@ export const Products = () => {
     const currentCust = useSelector(state => state.costumers.currentCust);
     const [prod, setProd] = useState(null);
     const custCameFrom = useSelector(state => state.costumers.custCameFrom);
-
     const dispatch = useDispatch();
     const [search, setSearch] = useState('');
-    //const isLoadingProducts = useSelector(state => state.products.loading);
+    const [filters, setFilters] = useState({
+        category: '',
+        search: '',
+        priceRange: [0, 10000],
+        availability: 'all'
+    });
+    const [isLoading, setIsLoading] = useState(true);
     const refDialog = useRef();
     const products = useSelector(state => state.products.productsList);
-    const product = useSelector(state => state.products.product);
+    const categories = useSelector(state => state.cattegory.cattagoryList);
     const navigate = useNavigate();
+
     const checkSignedIn = (p) => {
-        if (currentCust) {
+        if (currentCust && Object.keys(currentCust).length > 0) {
             dispatch(GetProductsByIdThunk(prod.id));
             navigate(`productsMain/${p.id}`);
-        }
-        else {
-            dispatch(setcustCameFrom(`/home/products/productsMain/${p.id}`))
+        } else {
+            dispatch(setcustCameFrom(`/home/products/productsMain/${p.id}`));
             navigate(`/home/login`);
         }
-    }
+    };
+
     useEffect(() => {
         if (prod !== null) {
             refDialog.current.showModal();
-            
         }
     }, [prod]);
 
-    // useEffect(() => {
+    useEffect(() => {
+        // dispatch(getProductsThunk());
+        // Simulate loading
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
+    }, []);
 
-    //     dispatch(getProductsThunk())
-    // }, []);
-    return <div className="products-container">
-        {/* <input type='text' onChange={e => setSearch(e.target.value)} /> */}
-        {/* {products.find(e =>  e.name === search  )?.map(p =>
-            <div className="product-card" onClick={() => { dispatch(GetProductsByIdThunk(p.id)); navigate(`productsMain/${p.id}`); }} key={p.id}>
-                <div className="product-details">
-                    <div className="product-text">{p.details}</div>
-                    <div className="product-text">{p.idCattegory}</div>
-                    <div className="product-text">{p.name}</div>
-                    <div className="product-text">{p.id}</div> </div>
-            </div>)} */}
+    const handleFilterChange = (name, value) => {
+        setFilters({
+            ...filters,
+            [name]: value
+        });
+    };
 
-        {products.map(p =>
-            <div className="product-card" onClick={() => { setProd(p) }} key={p.id}>
-                <div className="product-details">
-                    <img className="img" src={`/pic/Products/${p.url}.png`} alt={`${p.url}`}></img>
-                    <div className="product-text">{p.idCattegoryNavigation.name}</div>
-                    <div className="product-text">{p.name}</div>
-                    <div className="product-text">{p.details}</div>
-                    <div className="product-text">{p.id}</div> </div>
-                    
-            </div>
-        )}
-        {prod && <dialog ref={refDialog}>
-            <div className="buttonx" onClick={() => { setProd(null) }}> X</div>
-            <div className="product-card" key={prod.id}>
-                <div className="product-details">
-                    <div className="product-text">{prod.idCattegory}</div>
-                    <div className="product-text">{prod.name}</div>
-                    <div className="product-text">{prod.details}</div>
-                    <div className="product-text">{prod.id}</div>
-                    <button onClick={() => { checkSignedIn(prod); }}>לפירוט מחירים וסניפים</button>
+    const resetFilters = () => {
+        setFilters({
+            category: '',
+            search: '',
+            priceRange: [0, 10000],
+            availability: 'all'
+        });
+    };
+
+    // Filter products based on filters
+    const filteredProducts = products.filter(product => {
+        // Filter by search term
+        if (filters.search && !product.name.toLowerCase().includes(filters.search.toLowerCase()) && 
+            !product.details.toLowerCase().includes(filters.search.toLowerCase())) {
+            return false;
+        }
+        
+        // Filter by category
+        if (filters.category && product.idCattegory !== filters.category) {
+            return false;
+        }
+        
+        return true;
+    });
+
+    return (
+        <>
+            <div className="filters-container">
+                <div className="filters-header">
+                    <h2 className="filters-title">סינון מוצרים</h2>
+                    <button className="filters-reset" onClick={resetFilters}>איפוס סינון</button>
+                </div>
+                <div className="filters-content">
+                    <div className="filter-group">
+                        <label className="filter-label">חיפוש</label>
+                        <input 
+                            type="text" 
+                            className="filter-input" 
+                            placeholder="חפש לפי שם או תיאור" 
+                            value={filters.search}
+                            onChange={(e) => handleFilterChange('search', e.target.value)}
+                        />
+                    </div>
+                    <div className="filter-group">
+                        <label className="filter-label">קטגוריה</label>
+                        <select 
+                            className="filter-select"
+                            value={filters.category}
+                            onChange={(e) => handleFilterChange('category', e.target.value)}
+                        >
+                            <option value="">כל הקטגוריות</option>
+                            {categories.map(category => (
+                                <option key={category.id} value={category.id}>
+                                    {category.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="filter-group">
+                        <label className="filter-label">זמינות</label>
+                        <select 
+                            className="filter-select"
+                            value={filters.availability}
+                            onChange={(e) => handleFilterChange('availability', e.target.value)}
+                        >
+                            <option value="all">הכל</option>
+                            <option value="available">זמין בלבד</option>
+                            <option value="unavailable">לא זמין</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-        </dialog>}
 
+            <div className="products-container">
+                {isLoading ? (
+                    // Skeleton loading state
+                    Array(6).fill().map((_, index) => (
+                        <div className="skeleton-card" key={index}>
+                            <div className="skeleton-image"></div>
+                            <div className="skeleton-details">
+                                <div className="skeleton-text"></div>
+                                <div className="skeleton-text"></div>
+                                <div className="skeleton-text"></div>
+                            </div>
+                        </div>
+                    ))
+                ) : filteredProducts.length === 0 ? (
+                    // Empty state
+                    <div className="empty-state">
+                        <div className="empty-state-icon">🔍</div>
+                        <h3 className="empty-state-title">לא נמצאו מוצרים</h3>
+                        <p className="empty-state-text">נסה לשנות את הגדרות הסינון או לחפש מונח אחר</p>
+                        <button className="empty-state-action" onClick={resetFilters}>הצג את כל המוצרים</button>
+                    </div>
+                ) : (
+                    // Products grid
+                    filteredProducts.map(p => (
+                        <div className="product-card" onClick={() => { setProd(p) }} key={p.id}>
+                            <div className="product-image-container">
+                                <img 
+                                    className="product-image" 
+                                    src={`/pic/Products/${p.url}.png`} 
+                                    alt={p.name}
+                                    onError={(e) => {
+                                        e.target.src = '/product-placeholder.jpg';
+                                    }}
+                                />
+                            </div>
+                            <div className="product-details">
+                                <div className="product-category">{p.idCattegoryNavigation?.name || 'קטגוריה'}</div>
+                                <h3 className="product-name">{p.name}</h3>
+                                <p className="product-description">{p.details}</p>
+                                <div className="product-meta">
+                                    <span className="product-id">קוד: {p.id}</span>
+                                    <button className="product-action">פרטים נוספים</button>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
 
-    </div>
-
-
-}
+            {prod && (
+                <dialog className="product-dialog" ref={refDialog}>
+                    <button className="dialog-close" onClick={() => { setProd(null) }}>✕</button>
+                    <div className="dialog-content">
+                        <div className="dialog-image-container">
+                            <img 
+                                className="dialog-image" 
+                                src={`/pic/Products/${prod.url}.png`} 
+                                alt={prod.name}
+                                onError={(e) => {
+                                    e.target.src = '/product-placeholder.jpg';
+                                }}
+                            />
+                        </div>
+                        <div className="dialog-details">
+                            <h2 className="dialog-title">{prod.name}</h2>
+                            <div className="dialog-info">
+                                <div className="dialog-info-item">
+                                    <span className="dialog-info-label">קטגוריה:</span>
+                                    <span>{prod.idCattegoryNavigation?.name || 'קטגוריה'}</span>
+                                </div>
+                                <div className="dialog-info-item">
+                                    <span className="dialog-info-label">קוד מוצר:</span>
+                                    <span>{prod.id}</span>
+                                </div>
+                            </div>
+                            <p className="dialog-description">{prod.details}</p>
+                            <div className="dialog-actions">
+                                <button 
+                                    className="action-button primary-action"
+                                    onClick={() => { checkSignedIn(prod); }}
+                                >
+                                    לפירוט מחירים וסניפים
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </dialog>
+            )}
+        </>
+    );
+};

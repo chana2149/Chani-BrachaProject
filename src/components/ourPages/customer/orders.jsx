@@ -1,35 +1,189 @@
 import { useDispatch, useSelector } from 'react-redux';
-
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getProductsThunk } from '../../../redux/slices/products/GetAllProductsThunk';
 import { GetProductsByIdThunk } from '../../../redux/slices/products/GetProductsByIdThunk';
 import { GetAllOrdersByIdCostumerThunk } from '../../../redux/slices/order/GetAllOrdersByIdCostumerThunk';
+import { Link } from 'react-router-dom';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-export const Orders = (props) => {
+export const Orders = () => {
     const customer = useSelector(state => state.costumers.currentCust);
-
     const dispatch = useDispatch();
-    const [flag, setFlag] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const orders = useSelector(state => state.order.ordersList);
-
-
+    const [expandedOrder, setExpandedOrder] = useState(null);
+    
     useEffect(() => {
-
-        dispatch(GetAllOrdersByIdCostumerThunk(customer.id))
+        dispatch(GetAllOrdersByIdCostumerThunk(customer.id));
+        
+        // Simulate loading
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 800);
     }, []);
-    return <div>
-        {orders.map(p =>
-            <div style={{ width: 100, height: 100, backgroundColor: "red" }} key={p.idOrder} >
-                <div >{p.idOrder}</div>
-                <div  >{p.idSnif}</div>
-                {/* <div  >{customer.idCostumer}</div> */}
-                <div style={{ width: 100, height: 100, backgroundColor: "blue" }} >{p.orderDetails.map(p1 => <div >{p1.idProductSpecific}</div>
-                )}</div>
+    
+    const toggleOrderDetails = (orderId) => {
+        if (expandedOrder === orderId) {
+            setExpandedOrder(null);
+        } else {
+            setExpandedOrder(orderId);
+        }
+    };
+    
+    const getOrderStatus = (order) => {
+        // This is a placeholder - replace with actual status logic
+        const statuses = ['בהכנה', 'נשלח', 'התקבל', 'הושלם'];
+        const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+        return randomStatus;
+    };
+    
+    const getOrderDate = (order) => {
+        // This is a placeholder - replace with actual date from order
+        return new Date().toLocaleDateString('he-IL', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    };
+    
+    const getOrderTotal = (order) => {
+        // Calculate total from order details
+        return order.orderDetails.reduce((total, item) => total + parseFloat(item.price || 0), 0).toFixed(2);
+    };
 
-            </div>)}
+    return (
+        <div className="orders-page">
+            <div className="page-header">
+                <h1 className="page-title">ההזמנות שלי</h1>
+                <p className="page-subtitle">
+                    {orders.length > 0 ? `${orders.length} הזמנות` : 'אין לך הזמנות קודמות'}
+                </p>
+            </div>
 
-
-    </div>
-
-
-}
+            {isLoading ? (
+                // Skeleton loading state
+                <div className="orders-container">
+                    {Array(3).fill().map((_, index) => (
+                        <div className="skeleton-card" key={index}>
+                            <div className="skeleton-details" style={{flex: '1', padding: '1.5rem'}}>
+                                <div className="skeleton-text"></div>
+                                <div className="skeleton-text"></div>
+                                <div className="skeleton-text"></div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : orders.length > 0 ? (
+                <div className="orders-container">
+                    {orders.map(order => (
+                        <div className="order-card" key={order.idOrder}>
+                            <div className="order-header" onClick={() => toggleOrderDetails(order.idOrder)}>
+                                <div className="order-header-left">
+                                    <div className="order-icon">
+                                        <ShoppingBagIcon />
+                                    </div>
+                                    <div className="order-basic-info">
+                                        <h3 className="order-title">הזמנה #{order.idOrder}</h3>
+                                        <div className="order-date">
+                                            <CalendarTodayIcon />
+                                            <span>{getOrderDate(order)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="order-header-right">
+                                    <div className="order-status">
+                                        <span className={`status-badge ${getOrderStatus(order).toLowerCase()}`}>
+                                            {getOrderStatus(order)}
+                                        </span>
+                                    </div>
+                                    <div className="order-total">
+                                        <span className="total-label">סה"כ:</span>
+                                        <span className="total-amount">{getOrderTotal(order)} ₪</span>
+                                    </div>
+                                    <button className="expand-button">
+                                        {expandedOrder === order.idOrder ? 
+                                            <KeyboardArrowUpIcon /> : 
+                                            <KeyboardArrowDownIcon />
+                                        }
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            {expandedOrder === order.idOrder && (
+                                <div className="order-details">
+                                    <div className="order-info-section">
+                                        <div className="info-item">
+                                            <LocationOnIcon />
+                                            <span className="info-label">סניף:</span>
+                                            <span>{order.idSnif}</span>
+                                        </div>
+                                        <div className="info-item">
+                                            <ReceiptIcon />
+                                            <span className="info-label">מספר הזמנה:</span>
+                                            <span>{order.idOrder}</span>
+                                        </div>
+                                        <div className="info-item">
+                                            <LocalShippingIcon />
+                                            <span className="info-label">סטטוס משלוח:</span>
+                                            <span>{getOrderStatus(order)}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="order-products">
+                                        <h4 className="products-title">מוצרים בהזמנה</h4>
+                                        <div className="products-list">
+                                            {order.orderDetails.map(item => (
+                                                <div className="order-product-item" key={item.idProductSpecific}>
+                                                    <div className="product-image-container">
+                                                        <img 
+                                                            className="product-image" 
+                                                            src={`/product-placeholder.jpg`} 
+                                                            alt={`מוצר ${item.idProductSpecific}`}
+                                                            onError={(e) => {
+                                                                e.target.src = '/product-placeholder.jpg';
+                                                            }}
+                                                        />
+                                                    </div>
+                                                    <div className="product-details">
+                                                        <div className="product-name">מוצר #{item.idProductSpecific}</div>
+                                                        <div className="product-price">{item.price || '0.00'} ₪</div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="order-actions">
+                                        <button className="action-button secondary-action">
+                                            <InfoOutlinedIcon /> פרטים נוספים
+                                        </button>
+                                        <button className="action-button primary-action">
+                                            <ShoppingBagIcon /> הזמן שוב
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                // Empty orders state
+                <div className="empty-state">
+                    <div className="empty-state-icon">
+                        <ShoppingBagIcon style={{ fontSize: '4rem', color: '#ddd' }} />
+                    </div>
+                    <h3 className="empty-state-title">אין לך הזמנות קודמות</h3>
+                    <p className="empty-state-text">כאן תוכל לראות את ההזמנות שלך לאחר שתבצע רכישה</p>
+                    <Link to="/home/products" className="empty-state-action">התחל לקנות</Link>
+                </div>
+            )}
+        </div>
+    );
+};
