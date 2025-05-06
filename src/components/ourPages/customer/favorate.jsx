@@ -33,9 +33,40 @@ export const Favorate = () => {
     const favorate = useSelector(state => state.costumers.currentCustFaverate);
     const [isLoading, setIsLoading] = useState(true);
 
+
+    const [haert, setHaert] = useState('🤍');
+    useEffect(() => {
+        if (currentCust != {}) {
+            dispatch(GetCostumerByIdThunk(currentCust.id))
+        }
+        if (prod !== null) {
+            setHaert('🤍')
+            refDialog.current.showModal();
+            setHaertCheck(prod.id);
+        }
+    }, [prod]);
+
+    const setHaertCheck = (id) => {
+        favorate?.map((f) => {
+            if (f.id === id) {
+                setHaert('💖')
+            }
+        })
+    }
+
+    const checkFavorate = (prod) => {
+        if (haert === '🤍') {
+            dispatch(AddFavorateThunk({ customerid: currentCust.id, prodid: prod.id }));
+            setHaert('💖');
+        }
+        else {
+            dispatch(DeleteFavorateThunk({ customerid: currentCust.id, prodid: prod.id }));
+            setHaert('🤍');
+        }
+    }
     useEffect(() => {
         dispatch(GetCostumerByIdThunk(currentCust.id));
-        
+
         // Simulate loading
         setTimeout(() => {
             setIsLoading(false);
@@ -47,7 +78,7 @@ export const Favorate = () => {
         cart.map(x => {
             if (x.id === prod.id) { f = 1; }
         });
-        
+
         if (prod.available.toString() === 'true' && f === 0) {
             dispatch(addCurrentCustCart(prod));
             setShowAddSuccess(true);
@@ -75,13 +106,13 @@ export const Favorate = () => {
 
     useEffect(() => {
         dispatch(GetCostumerByIdThunk(currentCust.id));
-        
+
         if (prod !== null) {
             refDialog.current.showModal();
         }
     }, [prod]);
 
-    return (
+    return <>(
         <div className="favorites-page">
             <div className="page-header">
                 <h1 className="page-title">המוצרים המועדפים שלי</h1>
@@ -95,8 +126,8 @@ export const Favorate = () => {
                 <div className="favorites-container">
                     {Array(3).fill().map((_, index) => (
                         <div className="skeleton-card" key={index}>
-                            <div className="skeleton-image" style={{width: '180px', height: '180px'}}></div>
-                            <div className="skeleton-details" style={{flex: '1'}}>
+                            <div className="skeleton-image" style={{ width: '180px', height: '180px' }}></div>
+                            <div className="skeleton-details" style={{ flex: '1' }}>
                                 <div className="skeleton-text"></div>
                                 <div className="skeleton-text"></div>
                                 <div className="skeleton-text"></div>
@@ -109,28 +140,16 @@ export const Favorate = () => {
                     {favorate.map(p => (
                         <div className="favorite-card" key={p.id} onClick={() => setProd(p)}>
                             <div className="favorite-image-container">
-                                <img 
-                                    className="favorite-image" 
-                                    src={`/pic/Products/${p.idProductNavigation.url}.png`} 
+                                <img
+                                    className="favorite-image"
+                                    src={`/pic/Products/${p.idProductNavigation.url}.png`}
                                     alt={p.idProductNavigation.name}
                                     onError={(e) => {
                                         e.target.src = '/product-placeholder.jpg';
                                     }}
                                 />
-                                {p.available.toString() === 'false' && (
-                                    <div className="product-badge unavailable">
-                                        <CalendarTodayIcon /> חוזר בתאריך {new Date(p.dayTaken).toLocaleDateString()}
-                                    </div>
-                                )}
-                                <button 
-                                    className="favorite-remove-button"
-                                    onClick={(e) => { 
-                                        e.stopPropagation();
-                                        toggleFavorite(p);
-                                    }}
-                                >
-                                    <DeleteOutlineIcon />
-                                </button>
+
+
                             </div>
                             <div className="favorite-details">
                                 <h3 className="favorite-title">{p.idProductNavigation.name}</h3>
@@ -140,6 +159,7 @@ export const Favorate = () => {
                                         <span className="info-label">קוד מוצר:</span>
                                         <span>{p.id}</span>
                                     </div>
+                                
                                     <div className="info-item">
                                         <LocationOnIcon />
                                         <span>{p.idSnifNavigation.address}</span>
@@ -148,20 +168,15 @@ export const Favorate = () => {
                                         <PhoneIcon />
                                         <span>{p.idSnifNavigation.telephone}</span>
                                     </div>
+                                    <div className="info-item">
+                                        {p.available.toString() === 'false' &&<> 
+                                               <CalendarTodayIcon /> <span>חוזר בתאריך {new Date(p.dayTaken).toLocaleDateString()}</span> 
+                                        </>}
+                                    </div>
                                 </div>
                                 <div className="favorite-actions">
                                     <div className="favorite-price">{p.price} ₪</div>
-                                    <button 
-                                        className={`action-button primary-action ${p.available.toString() === 'false' ? 'disabled' : ''}`}
-                                        onClick={(e) => { 
-                                            e.stopPropagation();
-                                            addToCart(p);
-                                        }}
-                                        disabled={p.available.toString() === 'false'}
-                                    >
-                                        <ShoppingCartIcon /> 
-                                        {p.available.toString() === 'true' ? 'הוסף לסל' : 'לא זמין כעת'}
-                                    </button>
+
                                 </div>
                             </div>
                         </div>
@@ -186,6 +201,92 @@ export const Favorate = () => {
                     {/* ... */}
                 </dialog>
             )}
+            {prod && (
+                <dialog className="product-dialog" ref={refDialog}>
+                    <button className="dialog-close" onClick={() => {
+                        setProd(null);
+                        setShowDateError(false);
+                        setShowAddSuccess(false);
+                        setExsitsInCart(false);
+                    }}>✕</button>
+                    <div className="dialog-content">
+                        <div className="dialog-image-container">
+                            <img
+                                className="dialog-image"
+                                src={`/pic/Products/${prod.idProductNavigation.url}.png`}
+                                alt={prod.idProductNavigation.name}
+                                onError={(e) => {
+                                    e.target.src = '/product-placeholder.jpg';
+                                }}
+                            />
+                        </div>
+                        <div className="dialog-details">
+                            <h2 className="dialog-title">{prod.idProductNavigation.name}</h2>
+                            <div className="dialog-price">{prod.price} ₪</div>
+
+                            <div className="dialog-info">
+                                <div className="dialog-info-item">
+                                    <span className="dialog-info-label">קוד מוצר:</span>
+                                    <span>{prod.id}</span>
+                                </div>
+                                <div className="dialog-info-item">
+                                    <span className="dialog-info-label">כתובת:</span>
+                                    <span>{prod.idSnifNavigation.address}</span>
+                                </div>
+                                <div className="dialog-info-item">
+                                    <span className="dialog-info-label">טלפון:</span>
+                                    <span>{prod.idSnifNavigation.telephone}</span>
+                                </div>
+                                {prod.available.toString() === 'false' && (
+                                    <div className="dialog-info-item">
+                                        <span className="dialog-info-label">חוזר בתאריך:</span>
+                                        <span>{new Date(prod.dayTaken).toLocaleDateString()}</span>
+                                    </div>
+                                )}
+
+                                <div className="dialog-info-item">
+                                    {showAddSuccess && (
+                                        <div className="notification success">
+                                            <ShoppingCartIcon /> המוצר נוסף לסל בהצלחה!
+                                        </div>
+                                    )}
+                                    {exsitsInCart && (
+                                        <div className="notification warning">
+                                            <ShoppingCartIcon /> המוצר כבר קיים בסל הקניות שלך
+                                        </div>
+                                    )}
+                                    {showDateError && (
+                                        <div className="notification error">
+                                            <span className="dialog-info-label">חוזר בתאריך:</span>
+                                            <span>{new Date(prod.dayTaken).toLocaleDateString()}</span>  </div>
+                                    )}
+                                </div>
+
+
+                            </div>
+
+                            <div className="dialog-actions">
+                                <button
+                                    className="action-button primary-action"
+                                    onClick={() => addToCart(prod)}
+                                // disabled={prod.available.toString() === 'false'}
+                                >
+                                    <ShoppingCartIcon /> הוסף לסל
+                                </button>
+
+                                {/* <button
+                                    className={`action-button secondary-action ${isInFavorites(prod.id) ? 'active' : ''}`}
+                                    onClick={() => toggleFavorite(prod)}
+                                > */}
+                                <button className="action-button secondary-action" onClick={() => { checkFavorate(prod) }}>{haert}</button>
+
+                                {/* </button> */}
+                            </div>
+
+
+                        </div>
+                    </div>
+                </dialog>)}
         </div>
-    );
+        )</>
 };

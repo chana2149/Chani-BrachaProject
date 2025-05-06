@@ -34,8 +34,8 @@ export const Products1 = () => {
         name: "", 
         url: "", 
         details: "", 
-        idCattegory: 9000, 
-        idCattegoryNavigation: {}, 
+        idCattegory:9000, 
+        idCattegoryNavigation: {name:""}, 
         productsMains: [] 
     });
     const [prodMain, setProdMain] = useState({
@@ -63,7 +63,7 @@ export const Products1 = () => {
     
     const saveNewMain = () => {
         dispatch(AddProductsMainThunk(prodMain));
-        setShowAdd(false);
+        // setShowAdd(false);
     };
     
     const findId = (e) => {
@@ -72,9 +72,11 @@ export const Products1 = () => {
             setProd({ ...prod, idCattegory: cat.id });
         }
     };
+ 
     
     const save = () => {
         if (index1 === -1) {
+            alert()
             dispatch(AddProductsThunk(prod));
         } else {
             dispatch(EditProductThunk(prod));
@@ -83,12 +85,12 @@ export const Products1 = () => {
     
     useEffect(() => {
         dispatch(getProductsThunk());
-        dispatch(GetCattegoryThunk());
-    }, [dispatch]);
+    }, []);
     
     useEffect(() => {
         if (showEdit || showAdd || showDelete)
             refDialog.current.showModal();
+     
     }, [showEdit, showAdd, showDelete]);
     
     const addItem = (p) => {
@@ -141,8 +143,8 @@ export const Products1 = () => {
                             name: "", 
                             url: "", 
                             details: "", 
-                            idCattegory: 9000, 
-                            idCattegoryNavigation: {}, 
+                            idCattegory: 0, 
+                            idCattegoryNavigation: {name:""}, 
                             productsMains: [] 
                         }); 
                     }}
@@ -162,7 +164,7 @@ export const Products1 = () => {
                         <div className="product-card" key={p.id}>
                             <div className="product-image">
                                 {p.url ? (
-                                    <img src={p.url} alt={p.name} />
+                                    <img   src={`/pic/Products/${p.url}.png`}  alt={p.name} />
                                 ) : (
                                     <InventoryIcon />
                                 )}
@@ -228,8 +230,8 @@ export const Products1 = () => {
                             name: "", 
                             url: "", 
                             details: "", 
-                            idCattegory: 9000, 
-                            idCattegoryNavigation: {}, 
+                            idCattegory: 0, 
+                            idCattegoryNavigation: {name:""}, 
                             productsMains: [] 
                         }); 
                     }}
@@ -315,7 +317,7 @@ export const Products1 = () => {
                     <button 
                         className="save-button" 
                         onClick={() => { save(); setShowEdit(false); }}
-                        disabled={!prod.name || !prod.details || prod.idCattegory === 9000}
+                        disabled={!prod.name || !prod.details || prod.idCattegory === 0}
                     >
                         {index1 === -1 ? 'הוסף מוצר' : 'שמור שינויים'}
                     </button>
@@ -402,7 +404,7 @@ export const Products1 = () => {
                         onClick={saveNewMain}
                         disabled={!snif.id || !prodMain.price}
                     >
-                        הוסף לסניף
+                       הוסף לסניף
                     </button>
                 </div>
             </dialog>

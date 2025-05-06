@@ -193,7 +193,7 @@ export const OrderDetails = () => {
                                         <span className="item-id">קוד: {item.idProductSpecific}</span>
                                     </div>
                                 </div>
-                                <div className="item-price">{item.price || '0.00'} ₪</div>
+                                <div className="item-price">{item.idProductSpecificNavigation.price} uuuuuuuuuuuuuuuuuuuuuuuuuuu₪</div>
                             </div>
                         ))}
                     </div>
@@ -210,7 +210,7 @@ export const OrderDetails = () => {
                     <button className="action-button secondary-action">
                         <ReceiptIcon /> הדפס חשבונית
                     </button>
-                    <button className="action-button primary-action">
+                    <button   className="action-button primary-action">
                         <ShoppingBagIcon /> הזמן שוב
                     </button>
                 </div>

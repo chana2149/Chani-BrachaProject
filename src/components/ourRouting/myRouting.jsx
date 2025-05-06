@@ -14,6 +14,8 @@ import { Cart } from "../ourPages/customer/cart";
 import { Orders } from "../ourPages/customer/orders";
 import { LogonCust } from "../ourPages/customer/LogonCust";
 import { OrderDetails } from "../ourPages/customer/OrderDetails";
+import { OrderM } from "../ourPages/manager/orders";
+import { Instructions } from "../ourPages/manager/instrucyions";
 
 export const Routing = () => {
 
@@ -24,7 +26,7 @@ export const Routing = () => {
                 <Route path={'products'} element={<Products />} />
                 <Route path={'showCart'} element={<Cart />} />
                 <Route path={'showOrders'} element={<Orders />} >
-                    <Route path={':orderId'} element={<OrderDetails />} />
+                    {/* <Route path={':orderId'} element={<OrderDetails />} /> */}
                 </Route>
                 <Route path={'showLove'} element={<Favorate />} />
                 <Route path={'products/productsMain/:id'} element={<ProductsMain />} />
@@ -36,6 +38,10 @@ export const Routing = () => {
                 <Route path={'sniffim'} element={<Sniffim />} />
                 <Route path={'products'} element={<Products1 />} />
                 <Route path={'costumer'} element={<Costumer />} />
+                <Route path={'instructions'} element={<Instructions />} />
+
+                <Route path={'order'} element={<OrderM />} />
+
             </Route>
         </Routes>
     </>

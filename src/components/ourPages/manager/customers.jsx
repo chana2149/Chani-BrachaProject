@@ -8,9 +8,12 @@ import EmailIcon from '@mui/icons-material/Email';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { useNavigate } from "react-router-dom";
+import { setCurrentCust } from "../../../redux/slices/costumers/CostumerSlice";
 
 export const Costumer = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const costumers = useSelector(state => state.costumers.costumersList);
     const isLoading = useSelector(state => state.costumers.loading);
     const [searchTerm, setSearchTerm] = useState("");
@@ -19,7 +22,7 @@ export const Costumer = () => {
     
     useEffect(() => {
         dispatch(GetCostumersThunk());
-    }, [dispatch]);
+    }, []);
     
     const handleSearch = (e) => {
         setSearchTerm(e.target.value);
@@ -65,40 +68,8 @@ export const Costumer = () => {
                     />
                 </div>
                 
-                <div className="filter-container">
-                    <button className="filter-button" onClick={toggleFilter}>
-                        <FilterListIcon />
-                        <span>סינון</span>
-                    </button>
-                    
-                    {filterOpen && (
-                        <div className="filter-dropdown">
-                            <button 
-                                className={`filter-option ${selectedFilter === 'all' ? 'active' : ''}`}
-                                onClick={() => applyFilter('all')}
-                            >
-                                כל הלקוחות
-                            </button>
-                            <button 
-                                className={`filter-option ${selectedFilter === 'active' ? 'active' : ''}`}
-                                onClick={() => applyFilter('active')}
-                            >
-                                לקוחות פעילים
-                            </button>
-                            <button 
-                                className={`filter-option ${selectedFilter === 'inactive' ? 'active' : ''}`}
-                                onClick={() => applyFilter('inactive')}
-                            >
-                                לקוחות לא פעילים
-                            </button>
-                        </div>
-                    )}
-                </div>
-                
-                {/* <button className="add-button">
-                    <AddIcon />
-                    <span>הוסף לקוח</span>
-                </button> */}
+            
+               
             </div>
             
             {isLoading ? (
@@ -136,8 +107,7 @@ export const Costumer = () => {
                             </div>
                             
                             <div className="customer-actions">
-                                <button className="action-button edit">ערוך</button>
-                                <button className="action-button view">צפה בהזמנות</button>
+                                <button onClick={()=>{dispatch(setCurrentCust(customer));navigate('/manager123/HomeManager/order')}} className="action-button view">צפה בהזמנות</button>
                             </div>
                         </div>
                     ))}
@@ -148,11 +118,9 @@ export const Costumer = () => {
                     <h3 className="empty-state-title">לא נמצאו לקוחות</h3>
                     <p className="empty-state-text">
                         {searchTerm ? 'נסה לחפש מונח אחר או' : 'אין לקוחות במערכת כרגע.'}
-                        {' '}הוסף לקוח חדש כדי להתחיל
+                       
                     </p>
-                    <button className="empty-state-action">
-                        <AddIcon /> הוסף לקוח חדש
-                    </button>
+                        
                 </div>
             )}
         </div>

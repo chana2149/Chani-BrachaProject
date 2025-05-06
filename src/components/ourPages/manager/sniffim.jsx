@@ -118,9 +118,7 @@ export const Sniffim = () => {
                                 >
                                     <EditIcon /> עריכה
                                 </button>
-                                <button className="delete-button">
-                                    <DeleteIcon /> מחיקה
-                                </button>
+                             
                             </div>
                         </div>
                     ))}

@@ -136,7 +136,7 @@ export const productSlice = createSlice({
             state.loading = true;
         });
         builder.addCase(AddProductsMainThunk.fulfilled, (state, action) => {
-            state.product = action.payload;
+            state.productsList = action.payload;
             state.loading = false;
         });
         builder.addCase(AddProductsMainThunk.rejected, (state, action) => {
@@ -164,7 +164,7 @@ export const productSlice = createSlice({
             // state.status = tr;
         });
         builder.addCase(DeleteProdMainThunk.fulfilled, (state, action) => {
-            state.product = action.payload;
+            state.productsList = action.payload;
             state.loading = false;
             state.status = false;
         });

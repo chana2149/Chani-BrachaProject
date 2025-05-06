@@ -3,35 +3,34 @@ import '../ourCSS.css';
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { GetCattegoryThunk } from "../../../redux/slices/cattegory/GetCattegoryThunk";
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import StoreIcon from '@mui/icons-material/Store';
 import PeopleIcon from '@mui/icons-material/People';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import SettingsIcon from '@mui/icons-material/Settings';
+import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-
-
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 export const ManagerHome = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState("");
-    
+
     useEffect(() => {
         dispatch(GetCattegoryThunk());
-        
-        // Set current page based on URL
+    }, []);
+
+    useEffect(() => {
         const path = location.pathname.split('/').pop();
-        setCurrentPage(path || 'dashboard');
-    }, [location, dispatch]);
+        setCurrentPage(path || 'sniffim');
+    }, [location]);
     
     const handleLogout = () => {
         // Add logout logic here
-        navigate('/login');
+        navigate('/');
     };
     
     const toggleMobileMenu = () => {
@@ -43,7 +42,8 @@ export const ManagerHome = () => {
             case 'sniffim': return 'ניהול סניפים';
             case 'costumer': return 'ניהול לקוחות';
             case 'products': return 'ניהול מוצרים';
-            default: return 'לוח בקרה';
+            case 'instructions': return 'הוראות ניהול';
+            default: return 'ניהול סניפים';
         }
     };
     
@@ -58,17 +58,8 @@ export const ManagerHome = () => {
                 </div>
                 
                 <nav className="sidebar-nav">
-                    <Link 
-                        className={`nav-item ${currentPage === 'dashboard' ? 'active' : ''}`} 
-                        to="/manager123/HomeManager"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        <DashboardIcon />
-                        <span>לוח בקרה</span>
-                    </Link>
-                    
-                    <Link 
-                        className={`nav-item ${currentPage === 'sniffim' ? 'active' : ''}`} 
+                    <Link
+                        className={`nav-item ${currentPage === 'sniffim' ? 'active' : ''}`}
                         to="sniffim"
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -76,8 +67,8 @@ export const ManagerHome = () => {
                         <span>סניפים</span>
                     </Link>
                     
-                    <Link 
-                        className={`nav-item ${currentPage === 'costumer' ? 'active' : ''}`} 
+                    <Link
+                        className={`nav-item ${currentPage === 'costumer' ? 'active' : ''}`}
                         to="costumer"
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -85,8 +76,8 @@ export const ManagerHome = () => {
                         <span>לקוחות</span>
                     </Link>
                     
-                    <Link 
-                        className={`nav-item ${currentPage === 'products' ? 'active' : ''}`} 
+                    <Link
+                        className={`nav-item ${currentPage === 'products' ? 'active' : ''}`}
                         to="products"
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -96,13 +87,13 @@ export const ManagerHome = () => {
                     
                     <div className="nav-divider"></div>
                     
-                    <Link 
-                        className="nav-item" 
-                        to="#"
+                    <Link
+                        className={`nav-item ${currentPage === 'instructions' ? 'active' : ''}`}
+                        to="instructions"
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
-                        <SettingsIcon />
-                        <span>הגדרות</span>
+                        <HelpIcon />
+                        <span>הוראות ניהול</span>
                     </Link>
                     
                     <button className="nav-item logout" onClick={handleLogout}>
@@ -122,7 +113,7 @@ export const ManagerHome = () => {
                     
                     <div className="header-actions">
                         <div className="user-profile">
-                            <img src="/avatar-placeholder.jpg" alt="User" className="user-avatar" />
+                            <ManageAccountsOutlinedIcon/>
                             <span className="user-name">מנהל המערכת</span>
                         </div>
                     </div>

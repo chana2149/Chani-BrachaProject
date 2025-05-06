@@ -58,7 +58,7 @@ export const LoginCust = () => {
 
         var exists = 0;
         var flag = false;
-        dispatch(setCurrentCust(user));
+       
         
         costumers.map((c) => {
             if (c.id === user.id && c.name === user.name) {
@@ -68,6 +68,7 @@ export const LoginCust = () => {
         });
 
         if (flag) {
+            dispatch(setCurrentCust(user));
             navigate(`/home`);
         }
         
@@ -90,7 +91,7 @@ export const LoginCust = () => {
 
     return (
         <dialog className="dialog" ref={refDialog} onKeyPress={handleKeyPress}>
-            <Link className="buttonx" to={'/home'}> X</Link>
+            <Link className="buttonx" to={/* custCameFrom!== ""?navigate('/home/products'): */'/home'}   > X</Link>
             
             <h2 className="form-title">התחברות</h2>
             <p className="form-subtitle">ברוכים הבאים! אנא התחברו כדי להמשיך</p>
