@@ -39,8 +39,8 @@ export const LoginCust = () => {
         if (!user.id.trim()) {
             tempErrors.id = "סיסמה נדרשת";
             isValid = false;
-        } else if (user.id.length < 1) {
-            tempErrors.id = "סיסמה חייבת להכיל לפחות 1 תווים";
+        } else if (user.id.length < 4) {
+            tempErrors.id = "סיסמה חייבת להכיל לפחות 4 תווים";
             isValid = false;
         }
 

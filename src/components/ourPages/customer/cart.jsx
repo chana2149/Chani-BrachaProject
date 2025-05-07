@@ -500,7 +500,7 @@ export const Cart = () => {
                                                 {isFavorite(p) ? 'במועדפים' : 'הוסף למועדפים'} */}
                                             {/* </button> */}
                                             <button
-                                                className="action-button secondary-action remove-button"
+                                                className="action-button primary-action checkout-button"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     removeFromCart(p);
@@ -592,7 +592,7 @@ export const Cart = () => {
                                     {isFavorite(prod) ? 'הסר ממועדפים' : 'הוסף למועדפים'} */}
                                 {/* </button> */}
                                 <button
-                                    className="action-button secondary-action remove-button"
+                                    className="action-button primary-action checkout-button"
                                     onClick={() => {
                                         removeFromCart(prod);
                                         setProd(null);
@@ -850,7 +850,7 @@ export const Cart = () => {
 
                                 <div className="form-actions">
                                     <button
-                                        className={`action-button secondary-action`}
+                                        className={`action-button primary-action payment-button ${isFormValid() ? '' : 'disabled'}`}
                                         type="button"
                                         onClick={() => setPay(false)}
                                     >

@@ -261,14 +261,7 @@ export const Home = () => {
                                 </div>
                                 <p className="testimonial-text">{testimonial.text}</p>
                                 <div className="testimonial-author">
-                                    <img
-                                        src={testimonial.image}
-                                        alt={testimonial.name}
-                                        className="testimonial-image"
-                                        onError={(e) => {
-                                            e.target.src = "/default-avatar.png";
-                                        }}
-                                    />
+                                 
                                     <div className="testimonial-info">
                                         <h4 className="testimonial-name">{testimonial.name}</h4>
                                         <p className="testimonial-role">{testimonial.role}</p>
