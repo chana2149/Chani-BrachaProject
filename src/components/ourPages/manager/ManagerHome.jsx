@@ -98,7 +98,7 @@ export const ManagerHome = () => {
                     
                     <button className="nav-item logout" onClick={handleLogout}>
                         <LogoutIcon />
-                        <span>התנתקות</span>
+                        <span>למעבר לאתר</span>
                     </button>
                 </nav>
             </aside>

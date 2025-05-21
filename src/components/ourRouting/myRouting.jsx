@@ -15,7 +15,7 @@ import { Orders } from "../ourPages/customer/orders";
 import { LogonCust } from "../ourPages/customer/LogonCust";
 import { OrderDetails } from "../ourPages/customer/OrderDetails";
 import { OrderM } from "../ourPages/manager/orders";
-import { Instructions } from "../ourPages/manager/instrucyions";
+import { Instructions } from "../ourPages/manager/instructions";
 
 export const Routing = () => {
 

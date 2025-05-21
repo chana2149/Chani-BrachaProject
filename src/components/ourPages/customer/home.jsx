@@ -5,7 +5,7 @@ import { GetCattegoryThunk } from "../../../redux/slices/cattegory/GetCattegoryT
 import { useDispatch, useSelector } from "react-redux";
 import { GetProductsByCattegoryThunk } from "../../../redux/slices/products/GetProductsByCattegoryThunk";
 import { getProductsThunk } from "../../../redux/slices/products/GetAllProductsThunk";
-import { setcustCameFrom } from "../../../redux/slices/costumers/CostumerSlice";
+import { logoutCustomer, setcustCameFrom } from "../../../redux/slices/costumers/CostumerSlice";
 import Tooltip from '@mui/material/Tooltip';
 import { search } from "../../../redux/slices/products/ProductSlice";
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -27,6 +27,7 @@ import LocalMallIcon from '@mui/icons-material/LocalMall'; // אייקון תי�
 
 export const Home = () => {
     const dispatch = useDispatch();
+    const isLoadincattegory = useSelector(state => state.cattegory.loading);
     const isLoadingproducts = useSelector(state => state.products.loadingGet);
     const currentUser = useSelector(state => state.costumers.currentCust);
     const products = useSelector(state => state.products.productsList);
@@ -154,20 +155,30 @@ export const Home = () => {
     };
 
     return <div>
+        {(isLoadingproducts || isLoadincattegory) && (
+            <div className="fullscreen-loading-overlay">
+                <div className="loading-spinner">
+                    <div className="spinner"></div>
+                </div>
+                <p className="loading-text">טוען נתונים...</p>
+            </div>
+        )}
+
         <header>
             <Tooltip title="דף הבית" placement="bottom-start">
                 <img onClick={() => navigate("/home")} className="img headerButton" src="/logo.png" alt="logo"></img>
             </Tooltip>
             <div className="navigateLogin">
+                {currentUser && `שלום ${currentUser.name}`}
                 {!currentUser && <Tooltip title="להתחברות" placement="bottom-start">
                     <Link className="headerButton" to={'login'} >
                         <Person2OutlinedIcon htmlColor="rgb(70, 65, 65)" sx={{ fontSize: 50, alignItems: 'flex-end' }} />
                     </Link>
                 </Tooltip>}
-                {currentUser && <Tooltip title={`${currentUser.name}`} placement="bottom-start">
-                    <Link className="headerButton" to={'login'} >
+                {currentUser && <Tooltip title={`להתנתקות`} placement="bottom-start">
+                    <button className="headerButton" onClick={() => dispatch(logoutCustomer())}>
                         <Person2OutlinedIcon htmlColor="rgb(70, 65, 65)" sx={{ fontSize: 50, alignItems: 'flex-end' }} />
-                    </Link>
+                    </button>
                 </Tooltip>}
                 {currentUser &&
                     <Tooltip title="לצפיה בסל" placement="bottom-start">
@@ -261,7 +272,7 @@ export const Home = () => {
                                 </div>
                                 <p className="testimonial-text">{testimonial.text}</p>
                                 <div className="testimonial-author">
-                                 
+
                                     <div className="testimonial-info">
                                         <h4 className="testimonial-name">{testimonial.name}</h4>
                                         <p className="testimonial-role">{testimonial.role}</p>
@@ -349,9 +360,9 @@ export const Home = () => {
                             </div>
                         </div>
 
-                        <Link to="login" className="hero-button" >
+                        {!currentUser && <Link to="login" className="hero-button" >
                             להתחברות
-                        </Link>
+                        </Link>}
                     </div>
                 </section>
 

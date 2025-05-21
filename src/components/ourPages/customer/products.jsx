@@ -106,7 +106,7 @@ export const Products = () => {
             {
                 text: 'אני יכול לעזור לך למצוא את המוצר המתאים לצרכים שלך. מה אתה מחפש?',
                 sender: 'system',
-                options: ['ציוד תאורה', 'ציוד הגברה', 'ציוד במה', 'אחר']
+                options: ['ציוד תאורה', 'ציוד סאונד', 'ציוד במה', 'אחר']
             }
         ]);
     };
@@ -126,7 +126,7 @@ export const Products = () => {
             const matchingProducts = products.filter(product => 
                 product.name.includes(userMessage) || 
                 product.details.includes(userMessage)
-            ).slice(0, 3);
+            ).slice(0, 4);
             
             setTimeout(() => {
                 if (matchingProducts.length > 0) {
@@ -167,10 +167,10 @@ export const Products = () => {
                     sender: 'system',
                     products: lightingProducts
                 }]);
-            } else if (option === 'ציוד הגברה') {
+            } else if (option === 'ציוד סאונד') {
                 const soundProducts = products.filter(p => 
-                    p.idCattegoryNavigation?.name?.includes('הגברה') || 
-                    p.details?.includes('הגברה') ||
+                    p.idCattegoryNavigation?.name?.includes('סאונד') || 
+                    p.details?.includes('סאונד') ||
                     p.details?.includes('רמקול')
                 ).slice(0, 3);
                 
@@ -240,7 +240,7 @@ export const Products = () => {
                 setChatMessages(prev => [...prev, { 
                     text: 'במה אוכל לעזור לך עכשיו? מה אתה מחפש?', 
                     sender: 'system',
-                    options: ['ציוד תאורה', 'ציוד הגברה', 'ציוד במה', 'אחר']
+                    options: ['ציוד תאורה', 'ציוד סאונד', 'ציוד במה', 'אחר']
                 }]);
             }, 1000);
         } else if (option === 'סיום שיחה') {

@@ -78,6 +78,22 @@ export const costumerSlice = createSlice({
             state.isEmpty = false;
             sessionStorage.setItem('currentCustCart', JSON.stringify([]));
             sessionStorage.setItem('isEmpty', 'false');
+        },
+        // New logout function to clear all customer data from session storage
+        logoutCustomer: (state) => {
+            // Reset state
+            state.currentCust = null;
+            state.currentCustFaverate = [];
+            state.currentCustCart = [];
+            state.isEmpty = false;
+            state.custCameFrom = '';
+            
+            // Clear session storage
+            sessionStorage.removeItem('currentCust');
+            sessionStorage.removeItem('currentCustFaverate');
+            sessionStorage.removeItem('currentCustCart');
+            sessionStorage.setItem('isEmpty', 'false');
+            sessionStorage.removeItem('custCameFrom');
         }
     },
     extraReducers: (builder) => {
@@ -152,4 +168,12 @@ export const costumerSlice = createSlice({
     }
 })
 
-export const { setCurrentCust, addCurrentCustFaverate, addCurrentCustCart, deleteCurrentCustCart, deleteAllCurrentCustCart, setcustCameFrom } = costumerSlice.actions;
+export const { 
+    setCurrentCust, 
+    addCurrentCustFaverate, 
+    addCurrentCustCart, 
+    deleteCurrentCustCart, 
+    deleteAllCurrentCustCart, 
+    setcustCameFrom,
+    logoutCustomer // Export the new logout function
+} = costumerSlice.actions;

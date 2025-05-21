@@ -196,9 +196,9 @@ export const OrderM = () => {
                                     </div>
                                     <div className="order-actions">
                                        
-                                       <button onClick={() => {navigate('/home/products');dispatch(getProductsThunk());}} className="action-button primary-action">
+                                       {/* <button onClick={() => {navigate('/home/products');dispatch(getProductsThunk());}} className="action-button primary-action">
                                            <ShoppingBagIcon />  קניה נוספת
-                                       </button>
+                                       </button> */}
                                    </div>
                                 </div>
                             )}
